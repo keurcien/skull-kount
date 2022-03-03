@@ -99,6 +99,7 @@ export default {
 	grid-template-columns: repeat(4, 1fr);
 	align-items: center;
 	grid-row-gap: 50px;
+	justify-items: center;
 }
 
 .round-input > span {
@@ -107,7 +108,6 @@ export default {
 
 .round-player-name {
 	font-weight: 700;
-	text-align: left;
 }
 
 .increment-button,

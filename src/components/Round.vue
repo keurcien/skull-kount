@@ -101,6 +101,7 @@ export default {
 	color: white;
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: 700;
+	height: 50px;
 	padding: 10px 15px 10px 15px;
 	text-align: center;
 	position: fixed;

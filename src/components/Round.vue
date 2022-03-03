@@ -69,7 +69,7 @@ export default {
 				if (this.numberOfCards > this.roundNumber) {
 					return `⚠️ Il y a ${
 						this.numberOfCards - this.roundNumber
-					} ${plis_text} en trop.`;
+					} ${plis_text} de trop.`;
 				} else {
 					return `⚠️ Il manque ${
 						this.roundNumber - this.numberOfCards

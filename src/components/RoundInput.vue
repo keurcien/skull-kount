@@ -1,10 +1,18 @@
 <template>
 	<div class="round-input">
-		<span>{{ player.name }}</span>
-		<span>{{ value }}</span>
-		<button class="increment-button" @click="increment">+</button>
-		<button class="decrement-button" @click="decrement">-</button>
+		<span class="round-player-name">{{ player.name }}</span>
+		<span style="font-weight: 700" v-if="!isResultRound">{{ value }}</span>
+		<span
+			v-else
+			:class="{ 'result-correct': betIsCorrect, 'result-wrong': !betIsCorrect }"
+			>{{ resultValue }}</span
+		>
 		<input v-if="isResultRound" class="bonus-input" v-model="bonus" />
+		<span v-else></span>
+		<span style="display: flex">
+			<button class="increment-button" @click="increment">+</button>
+			<button class="decrement-button" @click="decrement">-</button>
+		</span>
 	</div>
 </template>
 
@@ -50,9 +58,22 @@ export default {
 		},
 	},
 	computed: {
-		...mapGetters(["roundNumber", "roundType"]),
+		...mapGetters(["roundNumber", "roundType", "scoreboard"]),
 		isResultRound() {
 			return this.roundType == "Results";
+		},
+		resultValue() {
+			if (this.roundType == "Bets") {
+				return this.value;
+			} else {
+				return `${this.value}/${this.currentBet}`;
+			}
+		},
+		currentBet() {
+			return this.scoreboard[this.player.name][this.roundNumber].bet;
+		},
+		betIsCorrect() {
+			return this.currentBet == this.value;
 		},
 	},
 	watch: {
@@ -61,10 +82,12 @@ export default {
 			this.bonus = 0;
 		},
 		bonus: function (val) {
-			this.submitPlayerBonus({
-				playerName: this.player.name,
-				bonus: parseInt(val),
-			});
+			if (val) {
+				this.submitPlayerBonus({
+					playerName: this.player.name,
+					bonus: parseInt(val),
+				});
+			}
 		},
 	},
 };
@@ -73,8 +96,18 @@ export default {
 <style>
 .round-input {
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);
+	grid-template-columns: repeat(4, 1fr);
 	align-items: center;
+	grid-row-gap: 50px;
+}
+
+.round-input > span {
+	padding: 5px;
+}
+
+.round-player-name {
+	font-weight: 700;
+	text-align: left;
 }
 
 .increment-button,
@@ -83,9 +116,9 @@ export default {
 	width: 40px;
 	height: 25px;
 	border: none;
-	margin: 5px;
 	font-weight: 700;
 	color: white;
+	margin-left: 5px;
 }
 
 .increment-button {
@@ -102,5 +135,16 @@ export default {
 	border-radius: 8px;
 	border: 1px solid rgb(5, 73, 83);
 	height: 25px;
+	padding-right: 5px;
+}
+
+.result-correct {
+	color: #00863f;
+	font-weight: 700;
+}
+
+.result-wrong {
+	color: red;
+	font-weight: 700;
 }
 </style>

@@ -11,8 +11,7 @@ export default {};
 	background: rgb(5, 73, 83);
 	color: white;
 	height: 50px;
-	padding: 10px;
+	padding: 15px;
 	font-weight: 700;
-	margin-bottom: 15px;
 }
 </style>

@@ -1,19 +1,19 @@
 <template>
 	<div class="home">
 		<Header />
-		<div v-if="!gameHasStarted" class="players-container">
-			<p
-				v-for="(player, index) in players"
-				:key="index"
-				@click="togglePlayerStatus(index)"
-				:class="{ active: player.isPlaying, inactive: !player.isPlaying }"
-			>
-				{{ player.name }}
-			</p>
+		<div v-if="!gameHasStarted" class="game-settings">
+			<div class="players-container">
+				<p
+					v-for="(player, index) in players"
+					:key="index"
+					@click="togglePlayerStatus(index)"
+					:class="{ active: player.isPlaying, inactive: !player.isPlaying }"
+				>
+					{{ player.name }}
+				</p>
+			</div>
+			<button id="start-button" @click="startGame">Start</button>
 		</div>
-		<button v-if="!gameHasStarted" id="start-button" @click="startGame">
-			Start
-		</button>
 		<Round
 			v-if="gameHasStarted"
 			:roundNumber="roundNumber"
@@ -79,14 +79,17 @@ export default {
 
 #start-button {
 	background: rgb(255, 145, 0);
+	width: 100%;
 	color: white;
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: 700;
-	border-radius: 20px;
+	height: 50px;
 	border: None;
 	padding: 5px 15px 5px 15px;
 	text-align: center;
-	margin: 5px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
 }
 
 .players-container {
@@ -94,6 +97,7 @@ export default {
 	flex-wrap: wrap;
 	position: relative;
 	width: 100%;
+	padding: 10px;
 }
 
 .active {

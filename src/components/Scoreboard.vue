@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="scoreboard">
 		<p v-if="gameHasStarted" class="scoreboard-header">Scoreboard</p>
 		<b-table hover :items="scores"></b-table>
 	</div>
@@ -57,5 +57,9 @@ export default {
 	color: rgb(5, 73, 83);
 	font-size: 20px;
 	font-weight: 700;
+}
+
+.scoreboard {
+	margin-bottom: 50px;
 }
 </style>

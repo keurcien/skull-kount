@@ -8,7 +8,10 @@
 				:player="player"
 			/>
 		</div>
-		<button id="submit-button" @click="submit">
+		<span v-if="roundType == 'Results' && !submissionIsValid">{{
+			invalidSubmissionText
+		}}</span>
+		<button id="submit-button" @click="submit" :disabled="!submissionIsValid">
 			Validate {{ roundType.toLowerCase() }}
 		</button>
 		<hr />
@@ -39,18 +42,41 @@ export default {
 		submit() {
 			if (this.roundType == "Bets") {
 				this.changeRoundType();
-				console.log(this.roundType);
 			} else {
 				this.changeRoundType();
 				this.incrementRoundNumber();
 			}
-			console.log(this.scoreboard);
 		},
 	},
 	computed: {
-		...mapGetters(["scoreboard", "roundType"]),
-		activePlayers() {
-			return this.players.filter((p) => p.isPlaying);
+		...mapGetters(["scoreboard", "roundType", "activePlayers"]),
+		numberOfCards() {
+			let nb_cards = 0;
+			for (let j = 0; j < this.activePlayers.length; j++) {
+				nb_cards +=
+					this.scoreboard[this.activePlayers[j].name][this.roundNumber].result;
+			}
+			return nb_cards;
+		},
+		submissionIsValid() {
+			return this.numberOfCards == this.roundNumber;
+		},
+		invalidSubmissionText() {
+			const diff = Math.abs(this.roundNumber - this.numberOfCards);
+			const plis_text = diff == 1 ? "pli" : "plis";
+			if (!this.submissionIsValid) {
+				if (this.numberOfCards > this.roundNumber) {
+					return `⚠️ Il y a ${
+						this.numberOfCards - this.roundNumber
+					} ${plis_text} en trop.`;
+				} else {
+					return `⚠️ Il manque ${
+						this.roundNumber - this.numberOfCards
+					} ${plis_text}.`;
+				}
+			} else {
+				return "";
+			}
 		},
 	},
 };
@@ -59,6 +85,7 @@ export default {
 <style>
 .round-container {
 	margin-bottom: 30px;
+	padding: 10px;
 }
 
 .round-header {
@@ -68,13 +95,20 @@ export default {
 
 #submit-button {
 	background: rgb(255, 145, 0);
+	width: 100%;
 	border: none;
 	color: white;
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: 700;
-	border-radius: 20px;
 	padding: 10px 15px 10px 15px;
 	text-align: center;
-	margin: 5px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+
+#submit-button:disabled {
+	background: lightgray;
+	color: darkgray;
 }
 </style>

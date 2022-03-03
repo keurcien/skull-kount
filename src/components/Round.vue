@@ -8,9 +8,7 @@
 				:player="player"
 			/>
 		</div>
-		<span v-if="roundType == 'Results' && !submissionIsValid">{{
-			invalidSubmissionText
-		}}</span>
+		<span v-if="!submissionIsValid">{{ invalidSubmissionText }}</span>
 		<button id="submit-button" @click="submit" :disabled="!submissionIsValid">
 			Validate {{ roundType.toLowerCase() }}
 		</button>
@@ -59,7 +57,10 @@ export default {
 			return nb_cards;
 		},
 		submissionIsValid() {
-			return this.numberOfCards == this.roundNumber;
+			return (
+				this.roundType == "Bets" ||
+				(this.roundType == "Results" && this.numberOfCards == this.roundNumber)
+			);
 		},
 		invalidSubmissionText() {
 			const diff = Math.abs(this.roundNumber - this.numberOfCards);

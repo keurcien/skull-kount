@@ -41,7 +41,7 @@ export default {
 		scores() {
 			return this.activePlayers
 				.map((p) => {
-					return { player: p.name, score: this.calcPlayerScore(p.name) };
+					return { player: p, score: this.calcPlayerScore(p) };
 				})
 				.sort((a, b) => (a.score > b.score ? -1 : 1));
 		},

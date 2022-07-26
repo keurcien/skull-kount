@@ -3,14 +3,19 @@
 		<Header />
 		<div v-if="!gameHasStarted" class="game-settings">
 			<div class="players-container">
-				<p
+				<div
+					class="player-input"
 					v-for="(player, index) in players"
 					:key="index"
-					@click="togglePlayerStatus(index)"
-					:class="{ active: player.isPlaying, inactive: !player.isPlaying }"
 				>
-					{{ player.name }}
-				</p>
+					<input v-model="players[index]" />
+					<button class="remove-player-btn" @click="removePlayer(index)">
+						-
+					</button>
+				</div>
+				<button id="add-player-btn" @click="addPlayer">
+					Ajouter un joueur
+				</button>
 			</div>
 			<button id="start-button" @click="startGame">Start</button>
 		</div>
@@ -36,20 +41,7 @@ export default {
 		Scoreboard,
 	},
 	data() {
-		return {
-			players: [
-				{ name: "Amine", isPlaying: true },
-				{ name: "Arnaud", isPlaying: true },
-				{ name: "Ayoub", isPlaying: true },
-				{ name: "Erwan", isPlaying: true },
-				{ name: "Idriss", isPlaying: true },
-				{ name: "Keurcien", isPlaying: true },
-				{ name: "Mathieu", isPlaying: true },
-				{ name: "Omar", isPlaying: true },
-				{ name: "Selim", isPlaying: true },
-				{ name: "Thibaut", isPlaying: true },
-			],
-		};
+		return {};
 	},
 	methods: {
 		...mapActions(["initScoreboard"]),
@@ -62,11 +54,27 @@ export default {
 		startGame() {
 			this.initGame();
 		},
+		removePlayer(index) {
+			let players = JSON.parse(JSON.stringify(this.players));
+			players.splice(index, 1);
+			this.$store.commit("setPlayers", players);
+		},
+		addPlayer() {
+			this.$store.commit("setPlayers", [...this.players, ""]);
+		},
 	},
 	computed: {
-		...mapGetters(["scoreboard", "roundNumber"]),
+		...mapGetters(["scoreboard", "roundNumber", "players"]),
 		gameHasStarted() {
 			return this.roundNumber != null;
+		},
+		playersEdited: {
+			get() {
+				return this.$store.state.game.players;
+			},
+			set(value) {
+				this.$store.commit("setPlayers", value);
+			},
 		},
 	},
 };
@@ -93,11 +101,8 @@ export default {
 }
 
 .players-container {
-	display: flex;
-	flex-wrap: wrap;
-	position: relative;
 	width: 100%;
-	padding: 10px;
+	padding: 20px;
 }
 
 .active {
@@ -118,5 +123,37 @@ export default {
 	padding: 5px 15px 5px 15px;
 	text-align: center;
 	margin: 5px;
+}
+
+.player-input {
+	margin-bottom: 5px;
+}
+
+.remove-player-btn {
+	border-radius: 8px;
+	width: 32px;
+	height: 32px;
+	border: none;
+	font-weight: 700;
+	color: white;
+	margin-left: 2px;
+	background: #e23d25;
+}
+
+#add-player-btn {
+	margin: auto;
+	height: 32px;
+	width: fit-content;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 12px;
+	border: none;
+	background: #f0ac2d;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 </style>

@@ -52,7 +52,7 @@ export default {
 			let nb_cards = 0;
 			for (let j = 0; j < this.activePlayers.length; j++) {
 				nb_cards +=
-					this.scoreboard[this.activePlayers[j].name][this.roundNumber].result;
+					this.scoreboard[this.activePlayers[j]][this.roundNumber].result;
 			}
 			return nb_cards;
 		},

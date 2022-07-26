@@ -1,6 +1,6 @@
 <template>
 	<div class="round-input">
-		<span class="round-player-name">{{ player.name }}</span>
+		<span class="round-player-name">{{ player }}</span>
 		<span style="font-weight: 700" v-if="!isResultRound">{{ value }}</span>
 		<span
 			v-else
@@ -20,7 +20,7 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
 	props: {
-		player: Object,
+		player: String,
 	},
 	data() {
 		return {
@@ -37,10 +37,10 @@ export default {
 		increment() {
 			if (this.value < this.roundNumber) this.value++;
 			if (this.roundType == "Bets") {
-				this.submitPlayerBet({ playerName: this.player.name, bet: this.value });
+				this.submitPlayerBet({ playerName: this.player, bet: this.value });
 			} else {
 				this.submitPlayerResult({
-					playerName: this.player.name,
+					playerName: this.player,
 					result: this.value,
 				});
 			}
@@ -48,10 +48,10 @@ export default {
 		decrement() {
 			if (this.value > 0) this.value--;
 			if (this.roundType == "Bets") {
-				this.submitPlayerBet({ playerName: this.player.name, bet: this.value });
+				this.submitPlayerBet({ playerName: this.player, bet: this.value });
 			} else {
 				this.submitPlayerResult({
-					playerName: this.player.name,
+					playerName: this.player,
 					result: this.value,
 				});
 			}
@@ -70,7 +70,7 @@ export default {
 			}
 		},
 		currentBet() {
-			return this.scoreboard[this.player.name][this.roundNumber].bet;
+			return this.scoreboard[this.player][this.roundNumber].bet;
 		},
 		betIsCorrect() {
 			return this.currentBet == this.value;
@@ -84,7 +84,7 @@ export default {
 		bonus: function (val) {
 			if (val) {
 				this.submitPlayerBonus({
-					playerName: this.player.name,
+					playerName: this.player,
 					bonus: parseInt(val),
 				});
 			}

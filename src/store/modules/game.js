@@ -3,6 +3,19 @@ const state = {
 	roundNumber: null,
 	roundType: "Bets",
 	activePlayers: [],
+	players: [""],
+	// players: [
+	// 	{ name: "Amine", isPlaying: true },
+	// 	{ name: "Arnaud", isPlaying: true },
+	// 	{ name: "Ayoub", isPlaying: true },
+	// 	{ name: "Erwan", isPlaying: true },
+	// 	{ name: "Idriss", isPlaying: true },
+	// 	{ name: "Keurcien", isPlaying: true },
+	// 	{ name: "Mathieu", isPlaying: true },
+	// 	{ name: "Omar", isPlaying: true },
+	// 	{ name: "Selim", isPlaying: true },
+	// 	{ name: "Thibaut", isPlaying: true },
+	// ],
 };
 
 const getters = {
@@ -10,6 +23,7 @@ const getters = {
 	roundNumber: (state) => state.roundNumber,
 	roundType: (state) => state.roundType,
 	activePlayers: (state) => state.activePlayers,
+	players: (state) => state.players,
 };
 
 const mutations = {
@@ -26,6 +40,9 @@ const mutations = {
 	setRoundType: (state, roundType) => {
 		state.roundType = roundType;
 	},
+	setPlayers: (state, players) => {
+		state.players = players;
+	},
 	setActivePlayers: (state, activePlayers) => {
 		state.activePlayers = activePlayers;
 	},
@@ -37,7 +54,7 @@ const mutations = {
 const actions = {
 	initScoreboard({ commit }, players) {
 		let scoreboard = {};
-		const activePlayers = players.filter((p) => p.isPlaying);
+		const activePlayers = players;
 		for (let k = 0; k < activePlayers.length; k++) {
 			let rounds = {};
 			for (let i = 1; i <= 12; i++) {
@@ -48,7 +65,7 @@ const actions = {
 					bonus: 0,
 				};
 			}
-			scoreboard[activePlayers[k].name] = rounds;
+			scoreboard[activePlayers[k]] = rounds;
 		}
 		commit("setScoreboard", scoreboard);
 		commit("setRoundNumber", 1);

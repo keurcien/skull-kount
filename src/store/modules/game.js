@@ -4,18 +4,6 @@ const state = {
 	roundType: "Bets",
 	activePlayers: [],
 	players: [""],
-	// players: [
-	// 	{ name: "Amine", isPlaying: true },
-	// 	{ name: "Arnaud", isPlaying: true },
-	// 	{ name: "Ayoub", isPlaying: true },
-	// 	{ name: "Erwan", isPlaying: true },
-	// 	{ name: "Idriss", isPlaying: true },
-	// 	{ name: "Keurcien", isPlaying: true },
-	// 	{ name: "Mathieu", isPlaying: true },
-	// 	{ name: "Omar", isPlaying: true },
-	// 	{ name: "Selim", isPlaying: true },
-	// 	{ name: "Thibaut", isPlaying: true },
-	// ],
 };
 
 const getters = {
@@ -89,6 +77,9 @@ const actions = {
 	},
 	incrementRoundNumber({ state, commit }) {
 		commit("setRoundNumber", state.roundNumber + 1);
+	},
+	decrementRoundNumber({ state, commit }) {
+		commit("setRoundNumber", state.roundNumber - 1);
 	},
 	updateScoreboard({ commit }, scoreboard) {
 		commit("setScoreboard", scoreboard);

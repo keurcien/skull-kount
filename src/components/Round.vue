@@ -12,6 +12,13 @@
 		<button id="submit-button" @click="submit" :disabled="!submissionIsValid">
 			Validate {{ roundType.toLowerCase() }}
 		</button>
+		<button
+			v-if="roundNumber > 1"
+			id="previous-round-btn"
+			@click="goBackToPreviousRound"
+		>
+			Back
+		</button>
 		<hr />
 	</div>
 </template>
@@ -36,6 +43,8 @@ export default {
 			"submitPlayerBet",
 			"changeRoundType",
 			"incrementRoundNumber",
+			"decrementRoundNumber",
+			"updateScoreboard",
 		]),
 		submit() {
 			if (this.roundType == "Bets") {
@@ -44,6 +53,26 @@ export default {
 				this.changeRoundType();
 				this.incrementRoundNumber();
 			}
+		},
+		goBackToPreviousRound() {
+			console.log(this.scoreboard);
+			let scoreboard_ = JSON.parse(JSON.stringify(this.scoreboard));
+			for (let j = 0; j < this.activePlayers.length; j++) {
+				scoreboard_[this.activePlayers[j]][this.roundNumber].bet = 0;
+				scoreboard_[this.activePlayers[j]][this.roundNumber].bonus = 0;
+				scoreboard_[this.activePlayers[j]][this.roundNumber].number = 0;
+				scoreboard_[this.activePlayers[j]][this.roundNumber].result = 0;
+			}
+			this.decrementRoundNumber();
+			for (let j = 0; j < this.activePlayers.length; j++) {
+				scoreboard_[this.activePlayers[j]][this.roundNumber].bet = 0;
+				scoreboard_[this.activePlayers[j]][this.roundNumber].bonus = 0;
+				scoreboard_[this.activePlayers[j]][this.roundNumber].number = 0;
+				scoreboard_[this.activePlayers[j]][this.roundNumber].result = 0;
+			}
+			this.updateScoreboard(scoreboard_);
+
+			console.log(scoreboard_);
 		},
 	},
 	computed: {

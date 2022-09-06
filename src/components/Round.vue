@@ -45,6 +45,7 @@ export default {
 			"incrementRoundNumber",
 			"decrementRoundNumber",
 			"updateScoreboard",
+			"resetRound",
 		]),
 		submit() {
 			if (this.roundType == "Bets") {
@@ -55,24 +56,9 @@ export default {
 			}
 		},
 		goBackToPreviousRound() {
-			console.log(this.scoreboard);
-			let scoreboard_ = JSON.parse(JSON.stringify(this.scoreboard));
-			for (let j = 0; j < this.activePlayers.length; j++) {
-				scoreboard_[this.activePlayers[j]][this.roundNumber].bet = 0;
-				scoreboard_[this.activePlayers[j]][this.roundNumber].bonus = 0;
-				scoreboard_[this.activePlayers[j]][this.roundNumber].number = 0;
-				scoreboard_[this.activePlayers[j]][this.roundNumber].result = 0;
-			}
+			this.resetRound(this.roundNumber);
 			this.decrementRoundNumber();
-			for (let j = 0; j < this.activePlayers.length; j++) {
-				scoreboard_[this.activePlayers[j]][this.roundNumber].bet = 0;
-				scoreboard_[this.activePlayers[j]][this.roundNumber].bonus = 0;
-				scoreboard_[this.activePlayers[j]][this.roundNumber].number = 0;
-				scoreboard_[this.activePlayers[j]][this.roundNumber].result = 0;
-			}
-			this.updateScoreboard(scoreboard_);
-
-			console.log(scoreboard_);
+			this.resetRound(this.roundNumber);
 		},
 	},
 	computed: {

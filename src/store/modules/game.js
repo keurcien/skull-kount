@@ -59,6 +59,14 @@ const actions = {
 		commit("setRoundNumber", 1);
 		commit("setActivePlayers", activePlayers);
 	},
+	resetRound({ state, commit }, roundNumber) {
+		for (let k = 0; k < state.activePlayers.length; k++) {
+			state.scoreboard[state.activePlayers[k]][roundNumber].bet = 0;
+			state.scoreboard[state.activePlayers[k]][roundNumber].result = 0;
+			state.scoreboard[state.activePlayers[k]][roundNumber].bonus = 0;
+		}
+		commit("setRoundType", "Bets");
+	},
 	submitPlayerBet({ commit }, { playerName, bet }) {
 		commit("setPlayerBet", { playerName, bet });
 	},

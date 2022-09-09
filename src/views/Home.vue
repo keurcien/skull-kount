@@ -55,6 +55,12 @@ export default {
 			this.initScoreboard(this.players);
 		},
 		startGame() {
+			// Enlever les users avec un pseudo vide avant le début de la partie
+			if (this.players[this.players.length - 1] === "") {
+				let players = JSON.parse(JSON.stringify(this.players));
+				players = this.players.slice(0, -1)
+				this.$store.commit("setPlayers", players);
+			}
 			this.initGame();
 		},
 		removePlayer(index) {

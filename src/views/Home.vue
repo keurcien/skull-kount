@@ -13,6 +13,7 @@
 						-
 					</button>
 				</div>
+				<div class="input-error" v-if="!isUserNameValid">Le pseudo de l'utilisateur ne peux pas être vide</div>
 				<button id="add-player-btn" @click="addPlayer">
 					Ajouter un joueur
 				</button>
@@ -41,7 +42,9 @@ export default {
 		Scoreboard,
 	},
 	data() {
-		return {};
+		return {
+			isUserNameValid: true
+		};
 	},
 	methods: {
 		...mapActions(["initScoreboard"]),
@@ -60,8 +63,17 @@ export default {
 			this.$store.commit("setPlayers", players);
 		},
 		addPlayer() {
-			this.$store.commit("setPlayers", [...this.players, ""]);
+			if (this.players[this.players.length - 1]) {
+				this.$store.commit("setPlayers", [...this.players, ""]);
+				this.isUserNameValid = true
+			} else {
+				this.isUserNameValid = false
+			}
+			
 		},
+		handleInputError(isValid) {
+			this.isUserNameValid = isValid
+		}
 	},
 	computed: {
 		...mapGetters(["scoreboard", "roundNumber", "players"]),
@@ -83,6 +95,11 @@ export default {
 <style>
 .home {
 	width: 100%;
+}
+
+.input-error {
+	margin-bottom: 5px;
+	color: #e23d25;
 }
 
 #start-button {

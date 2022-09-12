@@ -13,7 +13,7 @@
 						-
 					</button>
 				</div>
-				<div class="input-error" v-if="!isUserNameValid">Le pseudo de l'utilisateur ne peux pas être vide</div>
+				<div class="input-error" v-if="!isUserNameValid">Le pseudo de l'utilisateur ne peut pas être vide</div>
 				<button id="add-player-btn" @click="addPlayer">
 					Ajouter un joueur
 				</button>

@@ -107,6 +107,10 @@ export default {
 }
 
 .round-player-name {
+	width: 100px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	font-weight: 700;
 }
 
